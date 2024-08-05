@@ -4,7 +4,7 @@ export interface IUsuario extends Document {
   usuario: string;
   contrasena: string;
   iniciales: string;
-  rol: string;
+  rol: string;  
   estado: string;
 }
 
