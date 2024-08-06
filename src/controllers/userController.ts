@@ -11,7 +11,7 @@ export const createUser = async (req: Request, res: Response) => {
         if (err instanceof Error) {
             res.status(400).json({ error: err.message });
         } else {
-            res.status(400).json({ error: 'Unknown error occurred' });
+            res.status(400).json({ error: 'otro error' });
         }
     }
 };
@@ -24,7 +24,7 @@ export const getUsers = async (_req: Request, res: Response) => {
         if (err instanceof Error) {
             res.status(500).json({ error: err.message });
         } else {
-            res.status(500).json({ error: 'Unknown error occurred' });
+            res.status(500).json({ error: 'otro error' });
         }
     }
 };
