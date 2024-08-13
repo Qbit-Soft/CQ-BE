@@ -28,3 +28,15 @@ export async function createUser(req: Request, res: Response): Promise<void> {
         await client.close();
     }
 }
+
+export async function getUsers(req: Request, res: Response): Promise<void> {
+    try{
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const database = client.db('Qbit-Test');
+        const collection = database.collection<Usuario>('usuarios');
+        
+    } catch (err){
+
+    }
+}
