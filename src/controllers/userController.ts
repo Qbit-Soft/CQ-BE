@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { client } from '../config/db';
+import { ObjectId } from 'mongodb';
+
 import { Usuario } from '../models/Usuario';
 
 export async function createUser(req: Request, res: Response): Promise<void> {
@@ -35,8 +37,52 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
         console.log('Connected to MongoDB');
         const database = client.db('Qbit-Test');
         const collection = database.collection<Usuario>('usuarios');
-        
+        const users = await collection.find().toArray();
+        res.status(200).json(users);
     } catch (err){
+        console.error('Error Extracting user:', err);
+        res.status(500).json({ error: 'Error Extracting user' });
+    } finally {
+        await client.close();
+    }
+}
 
+export async function updateUser(req: Request, res: Response): Promise<void> {
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const database = client.db('Qbit-Test');
+
+        const collection = database.collection<Usuario>('usuarios');
+
+        const { usuario, contrasena, iniciales, rol, estado } = req.body;
+        const newData: Partial<Usuario> = { usuario, contrasena, iniciales, rol, estado };
+
+        const userId = new ObjectId(req.params.id);
+        const result = await collection.updateOne(
+            { _id: userId },
+            { $set: newData },
+        );
+
+        if (result.matchedCount  === 0) {
+            res.status(404).json({ error: 'User not found' });
+            return;
+        }
+
+        // Search updated document
+        const updatedUser = await collection.findOne({ _id: userId });
+
+        if (updatedUser) {
+            res.status(200).json({ message: "User successfully updated", user: updatedUser });
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+
+    } catch (err) {
+        console.error('Error updating user:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        await client.close();
     }
 }
