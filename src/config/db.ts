@@ -1,13 +1,19 @@
-import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 
-const connectDB = async (): Promise<void> => {
-  try {
-    await mongoose.connect('mongodb://localhost:27017/yourDatabase');
-    console.log('MongoDB connected...');
-  } catch (err: any) {
-    console.error(err.message);
-    process.exit(1);
-  }
-};
+// URL de conexión a MongoDB Atlas
+export const uri = "mongodb+srv://Isa_tm_22:1234@cluster-qbit.pb6em.mongodb.net/Qbit-Test?retryWrites=true&w=majority";
 
-export default connectDB;
+// Crear una nueva instancia de MongoClient
+export const client = new MongoClient(uri);
+
+async function connectToMongo() {
+    try {
+        // Conectarse al cliente
+        await client.connect();
+    } catch (error) {
+        console.error('Failed to connect to MongoDB', error);
+    }
+}
+
+// Llamar a la función para conectarse
+connectToMongo();
