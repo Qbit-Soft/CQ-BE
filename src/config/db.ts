@@ -1,19 +1,23 @@
 import { MongoClient } from 'mongodb';
 
-// URL de conexión a MongoDB Atlas
-export const uri = "mongodb+srv://Isa_tm_22:1234@cluster-qbit.pb6em.mongodb.net/Qbit-Test?retryWrites=true&w=majority";
+// Get the password from the environment variable
+const password = process.env.MONGO_PASSWORD;
 
-// Crear una nueva instancia de MongoClient
+// MongoDB Atlas connection URL using the environment variable
+export const uri = `mongodb+srv://Isa_tm_22:${password}@cluster-qbit.pb6em.mongodb.net/Qbit-Test?retryWrites=true&w=majority`;
+
+// Create a new instance of MongoClient
 export const client = new MongoClient(uri);
 
 async function connectToMongo() {
     try {
-        // Conectarse al cliente
+        // Connect to the client
         await client.connect();
+        console.log('Connected to MongoDB');
     } catch (error) {
         console.error('Failed to connect to MongoDB', error);
     }
 }
 
-// Llamar a la función para conectarse
+// Call the function to connect
 connectToMongo();
