@@ -1,40 +1,40 @@
 import express from 'express';
-
-import examplesRouter from './services/examples';
-
-const app = express();
-
-app.use(express.json());
-
-const PORT = 3000;
-
-app.use('/api/example', examplesRouter);
-
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
-
-/* 
-import express from 'express';
-import connectDB from './config/db';
+import { client } from './config/db'; // Importa el cliente de MongoDB
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 
-// Connect Database
-connectDB();
+// Función para iniciar el servidor y manejar la conexión a MongoDB
+async function startServer() {
+    try {
+        // Conectarse a MongoDB
+        await client.connect();
+        console.log('Connected to MongoDB');
 
-// Init Middleware
-app.use(express.json());
+        // Middleware para parsear JSON
+        app.use(express.json());
 
-// Define Routes
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/transportadoras', require('./routes/transportadoraRoutes'));
-app.use('/api/facturas', require('./routes/facturaRoutes'));
-app.use('/api/ordenes_compra', require('./routes/ordenCompraRoutes'));
-app.use('/api/productos', require('./routes/productoRoutes'));
+        // Montar las rutas
+        app.use('/api', userRoutes);
 
-const PORT = process.env.PORT || 5000;
+        // Iniciar el servidor
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+        // Manejar la desconexión de MongoDB al cerrar la aplicación
+        process.on('SIGINT', async () => {
+            await client.close();
+            console.log('Disconnected from MongoDB');
+            process.exit(0);
+        });
 
-*/
+    } catch (err) {
+        console.error('Failed to connect to MongoDB', err);
+        process.exit(1); // Terminar la aplicación si no puede conectarse a MongoDB
+    }
+}
+
+// Iniciar la conexión a MongoDB y arrancar el servidor
+startServer();
