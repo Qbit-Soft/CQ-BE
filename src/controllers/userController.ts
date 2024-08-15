@@ -4,6 +4,8 @@ import { ObjectId } from 'mongodb';
 
 import { Usuario } from '../models/Usuario';
 
+
+// create a user
 export async function createUser(req: Request, res: Response): Promise<void> {
     try {
         await client.connect();
@@ -31,6 +33,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     }
 }
 
+// list of all users
 export async function getUsers(req: Request, res: Response): Promise<void> {
     try{
         await client.connect();
@@ -47,6 +50,8 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
     }
 }
 
+
+// doesn't work (i don't know why)
 export async function updateUser(req: Request, res: Response): Promise<void> {
     try {
         await client.connect();
@@ -57,7 +62,8 @@ export async function updateUser(req: Request, res: Response): Promise<void> {
         const collection = database.collection<Usuario>('usuarios');
 
         const { usuario, contrasena, iniciales, rol, estado } = req.body;
-        const newData: Partial<Usuario> = { usuario, contrasena, iniciales, rol, estado };
+        console.log('Request body:', req.body);
+        const newData: Usuario = { usuario, contrasena, iniciales, rol, estado };
 
         const userId = new ObjectId(req.params.id);
         const result = await collection.updateOne(
