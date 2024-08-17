@@ -2,7 +2,7 @@ const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
 const pdfParse = require('pdf-parse');
 
-async function splitPdf(inputPath) {
+async function splitPdf(inputPath: string) {
   // Leer el archivo PDF
   const pdfBytes = fs.readFileSync(inputPath);
   const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -13,7 +13,7 @@ async function splitPdf(inputPath) {
   for (let i = 0; i < numPages; i++) {
     // Crear un nuevo documento PDF para la página actual
     const newPdfDoc = await PDFDocument.create();
-    
+
     // Copiar la página actual del documento original
     const [page] = await newPdfDoc.copyPages(pdfDoc, [i]);
     newPdfDoc.addPage(page);
@@ -31,7 +31,7 @@ async function splitPdf(inputPath) {
 
     // Buscar la línea que contiene "Orden de Compra :"
     const keyword = 'Orden de Compra :';
-    let fileName = pdfData.text.split('\n').find(line => line.includes(keyword));
+    let fileName = pdfData.text.split('\n').find((line: string) => line.includes(keyword));
 
     if (fileName) {
       // Extraer el número después de "Orden de Compra :"
