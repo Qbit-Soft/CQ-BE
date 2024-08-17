@@ -1,6 +1,7 @@
 import express from 'express';
 import { client } from './config/db'; // Importa el cliente de MongoDB
 import userRoutes from './routes/userRoutes';
+import convertRouter from './services/convertHSE';
 
 
 const app = express();
@@ -17,6 +18,7 @@ async function startServer() {
 
         // Montar las rutas
         app.use('/api', userRoutes);
+        app.use('/api/convert', convertRouter);
 
         // Iniciar el servidor
         const PORT = process.env.PORT || 3000;
