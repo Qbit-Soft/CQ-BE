@@ -2,6 +2,7 @@ import express from 'express';
 import { client } from './config/db'; // Importa el cliente de MongoDB
 import userRoutes from './routes/userRoutes';
 
+
 const app = express();
 
 // Función para iniciar el servidor y manejar la conexión a MongoDB
