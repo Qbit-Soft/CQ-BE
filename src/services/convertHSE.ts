@@ -4,7 +4,7 @@ import { convertController } from '../controllers/convertHSE';
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    res.send('Hola mundo convert');
+    res.send('Convert');
 });
 
 router.post('/', (_req, res) => {
