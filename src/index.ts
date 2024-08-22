@@ -1,31 +1,24 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import path from 'path';
 import formidable, { File, Files, IncomingForm } from 'formidable';
 import fs from 'fs';
-import userRoutes from './routes/userRoutes';  // Rutas de usuario
-import orderRoutes from './routes/orderRoutes';  // Rutas de orden de compra
 
 const app = express();
 const outputPath = path.join(__dirname, 'outputFiles');
 
-// Middleware para parsear cuerpos JSON (necesario para manejar datos de usuarios)
-app.use(express.json());
-
 async function startServer() {
     try {
-        // Crear directorio de salida si no existe
         if (!fs.existsSync(outputPath)) {
             fs.mkdirSync(outputPath);
         }
 
-        // Ruta para subir archivos HSE
-        app.post('/api/test-hse-upload', (req: Request, res: Response) => {
+        app.post('/api/test-hse-upload', (req, res) => {
             const form = new IncomingForm({
                 uploadDir: outputPath,
                 keepExtensions: true,
             });
 
-            form.parse(req, (err: any, fields: formidable.Fields, files: Files) => {
+            form.parse(req, (err, fields, files: Files) => {
                 if (err) {
                     console.error('Error parsing the form:', err);
                     res.status(500).send('Error parsing the form');
@@ -50,12 +43,6 @@ async function startServer() {
                 res.status(200).send(`HSE file ${filePath} processed successfully.`);
             });
         });
-
-        // Montar las rutas de usuarios
-        app.use('/api/users', userRoutes);  // Prefijo '/api/users' para las rutas de usuario
-
-        // Montar las rutas de orden de compra
-        app.use('/api/orders', orderRoutes);  // Prefijo '/api/orders' para las rutas de orden de compra
 
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
