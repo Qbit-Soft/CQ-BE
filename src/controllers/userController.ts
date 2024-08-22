@@ -6,6 +6,7 @@ import { Usuario } from '../models/Usuario';
 // create a user
 export async function createUser(req: Request, res: Response): Promise<void> {
     try {
+        console.log('Request body:', req);
         const database = client.db('Qbit-Test');
         const collection = database.collection<Usuario>('usuarios');
 
