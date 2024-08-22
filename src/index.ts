@@ -2,9 +2,13 @@ import express from 'express';
 import path from 'path';
 import formidable, { File, Files, IncomingForm } from 'formidable';
 import fs from 'fs';
+import userRoutes from './routes/userRoutes';  // Asegúrate de ajustar la ruta según la estructura de tu proyecto
 
 const app = express();
 const outputPath = path.join(__dirname, 'outputFiles');
+
+// Middleware para parsear cuerpos JSON (necesario para manejar datos de usuarios)
+app.use(express.json());
 
 async function startServer() {
     try {
@@ -12,6 +16,7 @@ async function startServer() {
             fs.mkdirSync(outputPath);
         }
 
+        // Ruta para subir archivos (como ya la tienes definida)
         app.post('/api/test-hse-upload', (req, res) => {
             const form = new IncomingForm({
                 uploadDir: outputPath,
@@ -43,6 +48,9 @@ async function startServer() {
                 res.status(200).send(`HSE file ${filePath} processed successfully.`);
             });
         });
+
+        // Montar las rutas de usuarios
+        app.use('/api', userRoutes);  // Prefijo '/api' para las rutas de usuario
 
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
