@@ -1,5 +1,5 @@
 import express from 'express';
-import { convertController } from '../controllers/convertHSE';
+import { convertController } from '../controllers/ordenCompraController';
 
 const router = express.Router();
 
