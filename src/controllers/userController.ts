@@ -1,16 +1,11 @@
 import { Request, Response } from 'express';
 import { client } from '../config/db';
 import { ObjectId } from 'mongodb';
-
 import { Usuario } from '../models/Usuario';
-
 
 // create a user
 export async function createUser(req: Request, res: Response): Promise<void> {
     try {
-        await client.connect();
-        console.log('Connected to MongoDB');
-
         const database = client.db('Qbit-Test');
         const collection = database.collection<Usuario>('usuarios');
 
@@ -28,16 +23,12 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     } catch (err) {
         console.error('Error creating user:', err);
         res.status(500).json({ error: 'Error creating user' });
-    } finally {
-        await client.close();
     }
 }
 
 // list of all users
 export async function getUsers(req: Request, res: Response): Promise<void> {
     try{
-        await client.connect();
-        console.log('Connected to MongoDB');
         const database = client.db('Qbit-Test');
         const collection = database.collection<Usuario>('usuarios');
         const users = await collection.find().toArray();
@@ -45,8 +36,6 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
     } catch (err){
         console.error('Error Extracting user:', err);
         res.status(500).json({ error: 'Error Extracting user' });
-    } finally {
-        await client.close();
     }
 }
 
@@ -54,9 +43,6 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
 // Update users
 export async function updateUser(req: Request, res: Response): Promise<void> {
     try {
-        await client.connect();
-        console.log('Connected to MongoDB');
-
         const database = client.db('Qbit-Test');
 
         const collection = database.collection<Usuario>('usuarios');
@@ -88,16 +74,11 @@ export async function updateUser(req: Request, res: Response): Promise<void> {
     } catch (err) {
         console.error('Error updating user:', err);
         res.status(500).json({ error: 'Internal Server Error' });
-    } finally {
-        await client.close();
     }
 }
 
 export async function deleteUser(req: Request, res: Response): Promise<void> {
     try {
-        await client.connect();
-        console.log('Connected to MongoDB');
-
         const database = client.db('Qbit-Test');
         const userId = new ObjectId(req.params.id);
 
@@ -111,7 +92,5 @@ export async function deleteUser(req: Request, res: Response): Promise<void> {
     } catch (err) {
         console.error('Error updating user:', err);
         res.status(500).json({ error: 'Internal Server Error' });
-    } finally {
-        await client.close();
     }
 }
