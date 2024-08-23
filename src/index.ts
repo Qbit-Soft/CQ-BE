@@ -5,7 +5,10 @@ import ordenCompraRoutes from './routes/ordenCompraRoutes';  // Asegúrate de aj
 const app = express();
 
 async function startServer() {
-  app.use('/api/user', userRoutes);
+
+  app.use(express.json());
+
+  app.use('/api/users', userRoutes);
   app.use('/orden-compra', ordenCompraRoutes);
 
   const PORT = process.env.PORT || 3000;

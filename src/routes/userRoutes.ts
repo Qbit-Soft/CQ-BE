@@ -4,10 +4,10 @@ import { createUser, getUsers, updateUser, deleteUser } from '../controllers/use
 const router = express.Router();
 
 // Define the route to create a user
-router.post('/users', createUser);
-router.get('/users', getUsers);
-router.put('/users/:id', updateUser);
-router.delete('/users/:id', deleteUser);
+router.post('/', createUser);
+router.get('/', getUsers);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 
 
