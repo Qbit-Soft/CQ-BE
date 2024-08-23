@@ -1,6 +1,6 @@
 import express from 'express';
-import userRoutes from './routes/userRoutes';  // Asegúrate de ajustar la ruta según la estructura de tu proyecto
-import ordenCompraRoutes from './routes/ordenCompraRoutes';  // Asegúrate de ajustar la ruta según la estructura de tu proyecto
+import userRoutes from './routes/usersRoutes';  // Asegúrate de ajustar la ruta según la estructura de tu proyecto
+import ordenCompraRoutes from './routes/purchaseOrdersRoutes';  // Asegúrate de ajustar la ruta según la estructura de tu proyecto
 
 const app = express();
 
