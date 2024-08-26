@@ -1,5 +1,5 @@
 import express from 'express';
-import { convertController } from '../controllers/purchaseOrdersController';
+// import { convertController } from '../controllers/purchaseOrdersController';
 
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.post('/', (_req, res) => {
 });
 
 // Ruta para subir y convertir el archivo HSE
-router.post('/upload', convertController);
+// router.post('/upload', convertController);
 
 export default router;

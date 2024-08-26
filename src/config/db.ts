@@ -1,21 +1,19 @@
 import 'dotenv/config';
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
 // MongoDB Atlas connection URL using the environment variable
-export const uri = process.env.DB_URI as string;
+const uri = process.env.DB_URI!;
 
-// Create a new instance of MongoClient
-export const client = new MongoClient(uri);
+mongoose.set('strictQuery', true);
 
-async function connectToMongo() {
+export default {
+  async connect() {
     try {
-        // Connect to the client
-        await client.connect();
-        console.log('Connected to MongoDB');
+      // Connect to the client
+      await mongoose.connect(uri);
+      console.log('Connected to MongoDB');
     } catch (error) {
-        console.error('Failed to connect to MongoDB', error);
+      console.error('Failed to connect to MongoDB', error);
     }
-}
-
-// Call the function to connect
-connectToMongo();
+  }
+};
