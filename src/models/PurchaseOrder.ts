@@ -1,15 +1,23 @@
+import { ObjectId } from "mongodb";
+
+export interface Order {
+    orderNumber: string;
+    orderDate: string;
+    deliveryMaxDate: string;
+    deliveryMinDate: string;
+    supplier: string;
+}
+
+export interface Item {
+    ean: string;  // EAN is a string
+    description: string;
+    quantity: number;
+    price: number;
+}
+
 export interface PurchaseOrder {
-  order: {
-      orderNumber: string;
-      orderDate: string;
-      deliveryMaxDate: string;
-      deliveryMinDate: string;
-      supplier: string;
-  };
-  items: Array<{
-      ean: string;
-      description: string;
-      quantity: number;  // quantity is an integer
-      price: number;     // price is a float (double)
-  }>;
+    _id?: ObjectId;  // MongoDB ObjectId
+    order: Order;
+    items: Item[];
+    createdAt?: Date;
 }

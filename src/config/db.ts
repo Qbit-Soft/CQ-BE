@@ -1,39 +1,21 @@
-<<<<<<< HEAD
-import 'dotenv/config';  // Load environment variables from .env
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
-// MongoDB connection URI from environment variables
-export const uri = process.env.DB_URI as string;
-=======
-import 'dotenv/config';
-import mongoose from 'mongoose';
+dotenv.config();  // Load environment variables from .env file
 
-// MongoDB Atlas connection URL using the environment variable
-const uri = process.env.DB_URI!;
->>>>>>> 1c3125762ce0fa790eee342b864e5c2ce3e70c29
+const uri = process.env.MONGO_URI || '';  // Load MongoDB URI from environment variable
+if (!uri) {
+    throw new Error("MongoDB connection URI is missing.");
+}
 
-mongoose.set('strictQuery', true);
+export const client = new MongoClient(uri);
 
-<<<<<<< HEAD
-// Function to connect to MongoDB
-export async function connectDB() {
+export async function connectToDatabase() {
     try {
         await client.connect();
-        console.log('Connected to MongoDB');
-=======
-export default {
-  async connect() {
-    try {
-      // Connect to the client
-      await mongoose.connect(uri);
-      console.log('Connected to MongoDB');
->>>>>>> 1c3125762ce0fa790eee342b864e5c2ce3e70c29
+        console.log("Connected to MongoDB Cluster-Qbit");
     } catch (error) {
-      console.error('Failed to connect to MongoDB', error);
+        console.error("Error connecting to MongoDB:", error);
+        throw error;
     }
-<<<<<<< HEAD
 }
-=======
-  }
-};
->>>>>>> 1c3125762ce0fa790eee342b864e5c2ce3e70c29

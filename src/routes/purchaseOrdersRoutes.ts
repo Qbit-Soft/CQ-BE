@@ -1,12 +1,17 @@
-import { Router } from 'express';
-import { createPurchaseOrder, getPurchaseOrders } from '../controllers/purchaseOrdersController';
+import express from 'express';
+import {
+    createPurchaseOrder,
+    updatePurchaseOrder,
+    getPurchaseOrderByOrderNumber,
+    deletePurchaseOrder
+} from '../controllers/purchaseOrdersController';  // Import the controller functions
 
-const router = Router();
+const router = express.Router();
 
-// Route to create a new purchase order
+// Define routes for purchase orders
 router.post('/', createPurchaseOrder);
-
-// Route to get all purchase orders
-router.get('/', getPurchaseOrders);
+router.put('/:orderNumber', updatePurchaseOrder);
+router.get('/:orderNumber', getPurchaseOrderByOrderNumber);
+router.delete('/:orderNumber', deletePurchaseOrder);
 
 export default router;
