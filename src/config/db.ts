@@ -1,19 +1,21 @@
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
-// URL de conexión a MongoDB Atlas
-export const uri = "mongodb+srv://Isa_tm_22:1234@cluster-qbit.pb6em.mongodb.net/Qbit-Test?retryWrites=true&w=majority";
+dotenv.config();  // Load environment variables from .env file
 
-// Crear una nueva instancia de MongoClient
-export const client = new MongoClient(uri);
-
-async function connectToMongo() {
-    try {
-        // Conectarse al cliente
-        await client.connect();
-    } catch (error) {
-        console.error('Failed to connect to MongoDB', error);
-    }
+const uri = process.env.MONGO_URI || '';  // Load MongoDB URI from environment variable
+if (!uri) {
+    throw new Error("MongoDB connection URI is missing.");
 }
 
-// Llamar a la función para conectarse
-connectToMongo();
+export const client = new MongoClient(uri);
+
+export async function connectToDatabase() {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB Cluster-Qbit");
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+        throw error;
+    }
+}

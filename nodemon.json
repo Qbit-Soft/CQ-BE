@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "verbose": false,
+  "ignore": ["*.test.ts", "*.spec.ts", "**/node_modules/**", "**/.git/**", "**/dist/**", "**/build/**"],
+  "watch": ["src/"],
+  "ext": "*.ts",
+  "exec": "npx tsc && node dist/index.js"
+}
